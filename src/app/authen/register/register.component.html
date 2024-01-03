@@ -1,0 +1,23 @@
+<div class="mt-3 mb-2">
+    <form class="" [formGroup]="registerform" (ngSubmit)="register()">
+        <mat-form-field class="block">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="abc@gmail.com" formControlName="Email" autocomplete="current-email">
+        </mat-form-field>
+        <mat-form-field class="block">
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput type="password" [type]="hide ? 'password' : 'text'" placeholder="Ví dụ: 'Aa@123'" autocomplete="password" formControlName="Password">
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        <mat-form-field class="block">
+            <mat-label>Nhập lại mật khẩu</mat-label>
+            <input matInput type="password" placeholder="mật khẩu" formControlName="Confirm" autocomplete="current-password">
+        </mat-form-field>
+
+        <div class="mt-1 d-flex justify-content-center">
+            <button mat-raised-button color="warn" >Đăng ký</button>
+        </div>
+    </form>
+</div>

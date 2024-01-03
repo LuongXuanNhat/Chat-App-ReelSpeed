@@ -1,0 +1,10 @@
+{
+    "users": [
+      { "id": 1, "name": "Xuân Nhất", "avatar": "assets/avatar/avatar1.jpg" },
+      { "id": 2, "name": "Mai Anh", "avatar": "assets/avatar/avatar2.jpg" }
+    ],
+    "comments": [
+      { "id": 1, "body": "some comment", "postId": 1 }
+    ],
+    "profile": { "name": "typicode" }
+}

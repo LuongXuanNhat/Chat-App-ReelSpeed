@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.block {
+    display: block !important;
+}
+
+.flex {
+    display: flex !important;
+}
+
+.title {
+    font-size: 2em;
+    font-weight: 600;
+    border-left: 4px solid salmon;
+    padding: 8px 8px;
+    margin-left: 16px;
+    color: white;
+    background: linear-gradient( 135deg, #FD6E6A 10%, #FFC600 100%);
+}

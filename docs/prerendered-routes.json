@@ -1,0 +1,10 @@
+{
+  "routes": [
+    "/",
+    "/authen",
+    "/chat",
+    "/searchroom",
+    "/settings",
+    "/users"
+  ]
+}

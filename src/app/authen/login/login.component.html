@@ -1,0 +1,19 @@
+<div class="mt-4 mb-3">
+    <form class="" [formGroup]="loginform" (ngSubmit)="login()">
+        <mat-form-field class="block">
+          <mat-label>Tên tài khoản</mat-label>
+          <input matInput placeholder="Mr. Eva" formControlName="Account" autocomplete="current-account">
+        </mat-form-field>
+        <mat-form-field class="block">
+            <mat-label>Mật khẩu</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="mật khẩu" formControlName="Password" autocomplete="current-password">
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div class="mt-1 d-flex justify-content-center">
+            <button mat-raised-button color="warn" >Đăng nhập</button>
+        </div>
+    </form>
+</div>
