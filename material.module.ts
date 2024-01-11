@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
     exports: [
@@ -21,7 +23,9 @@ import { MatMenuModule } from '@angular/material/menu';
         MatInputModule,
         MatFormFieldModule,
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
+        MatProgressSpinnerModule,
+        MatSlideToggleModule
       ],
     providers: [
       {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}

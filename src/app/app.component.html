@@ -1,4 +1,4 @@
-<div style="height: 750px;">
+<div class="h-full">
     <div class="sidebar pt-3">
         <a (click)="GetHome()" routerLinkActive="router-link-active"  class="flex justify-content-center"  style="cursor: pointer;" matTooltip="Trang chủ" matTooltipPosition="right">
             <img src="assets/live-chat.png" alt="" class="img-app">
@@ -16,10 +16,10 @@
             <img src="assets/people.png" alt="" class="img-app">
         </a>
         <div style="margin-top: auto; cursor: pointer;">
-            <a class="justify-content-center mb-3 flex text-center text-white" matTooltip="Ảnh đại diện" matTooltipPosition="right">
-                <img [src]="GetLogged() ? 'assets/log-out.png' : 'assets/xn.jpg'" alt="" class="img-app">
+            <a class="justify-content-center mb-3 flex text-center text-white">
+                <img [src]="" alt="" class="img-app">
             </a>
-            <a (click)="Authen()" class="justify-content-center mb-3 flex text-center text-white" [matTooltip]="GetLogged() ? 'Đăng xuất' : 'Đăng nhập'" matTooltipPosition="right">
+            <a (click)="GetLogged() ? Logout() : Authen()" class="justify-content-center mb-3 flex text-center text-white" [matTooltip]="GetLogged() ? 'Đăng xuất' : 'Đăng nhập'" matTooltipPosition="right">
                 <img [src]="GetLogged() ? 'assets/log-out.png' : 'assets/log-in.png'" alt="" class="img-app">
             </a>
         </div>

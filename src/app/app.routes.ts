@@ -5,12 +5,13 @@ import { SearchComponent } from './search/search.component';
 import { SettingComponent } from './setting/setting.component';
 import { UsersComponent } from './users/users.component';
 import { ChatComponent } from './chat/chat.component';
+import { Verified } from './verified.guard';
 
 export const routes: Routes = [
     {'path':'', component:HomeComponent},
-    {'path':'users', component:UsersComponent},
-    {'path':'chat', component:ChatComponent},
+    {'path':'users', canActivate: [Verified], component:UsersComponent},
+    {'path':'chat', canActivate: [Verified], component:ChatComponent},
     {'path':'authen', component:AuthenComponent},
     {'path':'searchroom', component:SearchComponent},
-    {'path':'settings', component:SettingComponent},
+    {'path':'settings', canActivate: [Verified], component:SettingComponent},
 ];

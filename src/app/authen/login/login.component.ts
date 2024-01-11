@@ -6,6 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../ApiService/api.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { AuthenComponent } from '../authen.component';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -19,25 +23,34 @@ import { ApiService } from '../../ApiService/api.service';
 export class LoginComponent {
   hide = true;
   loginform = this.builder.group({
-    Account: this.builder.control('', Validators.required),
-    Password: this.builder.control('', Validators.required)
+    email: this.builder.control('', Validators.required),
+    password: this.builder.control('', Validators.required)
   })
 
-  constructor(private builder: FormBuilder, private toastr: ToastrService, private service: ApiService){
+  constructor(private builder: FormBuilder, private toastr: ToastrService, private service: ApiService,
+    private dialogRef: MatDialogRef<AuthenComponent>, private location: Location, private router: Router,
+    ){
 
   }
 
   async login(){
     if(this.loginform.valid){
       (await this.service.Login(this.loginform.value)).subscribe(
-        (data: any) => {
-          if(data.isSuccessed){
-  
+        async (data: any) => {
+          if(data.status === 'success'){
+            const mes = data.message;
+            await this.service.SetToken(data.token);
+            this.dialogRef.close();
+            this.toastr.success(mes,'Thông báo',{
+              timeOut: 1000
+            });
+            const previousState = this.service.GetOldPath();
+            this.router.navigateByUrl(previousState);
           } else {
             this.toastr.error("Lỗi: " + data.message);
           }
         }, (error: any) => {
-          this.toastr.error("Lỗi: "+ error);
+          this.toastr.error("Lỗi: Serve đang tắt");
         }
       )
     }

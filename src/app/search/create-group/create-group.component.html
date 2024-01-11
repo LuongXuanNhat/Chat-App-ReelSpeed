@@ -1,0 +1,16 @@
+<div class="mt-4 mb-3">
+    <form [formGroup]="crategroupform" (ngSubmit)="submit()">
+        <mat-form-field class="block"> 
+          <mat-label>Tên nhóm chat</mat-label>
+          <input matInput  formControlName="groupName" autocomplete="">
+        </mat-form-field>
+        <mat-form-field class="block">
+            <mat-slide-toggle formControlName="publicGroup" labelPosition="before">Nhóm công khai :</mat-slide-toggle>
+        </mat-form-field>
+
+        <div class="mt-1 d-flex justify-content-center">
+            <button mat-raised-button color="warn" >Tạo</button>
+        </div>
+    </form>
+</div>
+
