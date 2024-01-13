@@ -1,19 +1,35 @@
 <div class="mt-3 mb-2">
     <form class="" [formGroup]="registerform" (ngSubmit)="register()">
         <mat-form-field class="block">
+            <mat-label>Họ và tên</mat-label>
+            <input matInput placeholder="Ví dụ: Nhat Luong" formControlName="fullname">
+            <mat-error *ngIf="registerform.get('fullname')?.hasError('minlength')">
+                Họ tên không được quá ngắn
+            </mat-error>
+          </mat-form-field>
+        <mat-form-field class="block">
           <mat-label>Email</mat-label>
-          <input matInput placeholder="abc@gmail.com" formControlName="Email" autocomplete="current-email">
+          <input matInput placeholder="abc@gmail.com" formControlName="email" autocomplete="current-email">
+          <mat-error *ngIf="registerform.get('email')?.hasError('email')">
+            Email không hợp lệ
+        </mat-error>
         </mat-form-field>
         <mat-form-field class="block">
             <mat-label>Mật khẩu</mat-label>
-            <input matInput type="password" [type]="hide ? 'password' : 'text'" placeholder="Ví dụ: 'Aa@123'" autocomplete="password" formControlName="Password">
+            <input matInput type="password" [type]="hide ? 'password' : 'text'" placeholder="Ví dụ: 'Aa@123'" autocomplete="password" formControlName="password">
+            <mat-error *ngIf="registerform.get('password')?.hasError('minlength')">
+                Mật khẩu ít nhất 8 ký tự
+            </mat-error>
+            <mat-error *ngIf="registerform.get('password')?.hasError('pattern')">
+                Mật khẩu chưa chuẩn: Ví dụ | Aa-12345
+            </mat-error>
             <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
         </mat-form-field>
         <mat-form-field class="block">
             <mat-label>Nhập lại mật khẩu</mat-label>
-            <input matInput type="password" placeholder="mật khẩu" formControlName="Confirm" autocomplete="current-password">
+            <input matInput type="password" placeholder="mật khẩu" formControlName="confirm" autocomplete="current-password">
         </mat-form-field>
 
         <div class="mt-1 d-flex justify-content-center">

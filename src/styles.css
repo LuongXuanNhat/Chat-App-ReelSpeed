@@ -11,7 +11,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: flex !important;
 }
 
+.cursor {
+    cursor: pointer;
+}
+
+.custom-toast {
+    top: 80px;
+    right: 12px;
+}
+
 .title {
+    display: flex;
     font-size: 2em;
     font-weight: 600;
     border-left: 4px solid salmon;

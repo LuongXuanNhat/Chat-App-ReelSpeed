@@ -1,16 +1,34 @@
 import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from './ApiService/api.service';
+import { AuthenComponent } from './authen/authen.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class Verified implements CanActivate {
-  constructor(private router: Router,private toastr: ToastrService, private service: ApiService) { }
+  constructor(private router: Router,private toastr: ToastrService, private service: ApiService,
+     private dialog: MatDialog, ) {
+
+  }
   
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.service.isAuthenticated()) {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (localStorage.getItem('token')) {
       return true;
     } else {
-      this.toastr.warning('Bạn chưa đăng nhập')
-      this.router.navigate(['/login']);
+      
+      this.toastr.info('Bạn chưa đăng nhập','Thông báo')
+      this.dialog.open(AuthenComponent, {
+        enterAnimationDuration: '100ms',
+        exitAnimationDuration: '600ms',
+        width: '30%',
+        height: '63%',
+        minWidth: '300px',
+        minHeight: '380px'
+      });
       return false;
     }
   }

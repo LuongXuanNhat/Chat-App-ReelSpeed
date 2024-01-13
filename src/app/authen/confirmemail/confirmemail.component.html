@@ -1,0 +1,21 @@
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-8 mx-auto">
+      <div class="flex flex-col text-center w-full mb-8">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Xác thực email</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Vui lòng nhập mã xác thực được gửi đến tài khoản của bạn</p>
+      </div>
+      <div class="flex lg:w-2/3 w-full sm:flex-row flex-col mx-auto px-8 sm:space-x-4 sm:space-y-0 space-y-4 sm:px-0 items-end">
+        <div class="relative flex-grow w-full">
+          <label for="full-name" class="leading-7 text-sm text-gray-600">Nhập mã xác nhận</label>
+          <input type="text" [(ngModel)]="confirm" placeholder="Mã xác thực có 6 số" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          <mat-error *ngIf="confirmform.get('confirm')?.hasError('minlength')">
+            Mã xác nhận là 6 số
+          </mat-error>
+          <mat-error *ngIf="confirmform.get('confirm')?.hasError('maxlength')">
+            Mã xác nhận là 6 số
+          </mat-error>
+        </div>
+        <button  mat-raised-button color="warn" (click)="ConfirmEmail()">Gửi</button>
+      </div>
+    </div>
+</section>
