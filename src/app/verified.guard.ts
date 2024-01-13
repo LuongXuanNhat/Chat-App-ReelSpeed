@@ -16,7 +16,7 @@ export class Verified implements CanActivate {
   }
   
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    if (await this.service.isAuthenticated()) {
+    if (localStorage.getItem('token')) {
       return true;
     } else {
       

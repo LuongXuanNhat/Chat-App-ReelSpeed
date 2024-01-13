@@ -10,6 +10,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService{
+  GetUserId() {
+    return this.Decode();
+  }
+  SetGroupId(groupId: any) {
+    sessionStorage.setItem('group_id', groupId);
+  }
+  GetGroupId(){
+    return sessionStorage.getItem('group_id') ?? '';
+  }
+  RemoveGroupId(){
+    sessionStorage.removeItem('group_id');
+  }
+
+  GetGroupInfo(group_id: any){
+    return this.http.get( URL_API + 'chat/get-group-info?groupId='+group_id);
+  }
   async UpdateUser(value: any) {
     return await this.http.patch(URL_API + 'user/update-me', value);
   }
@@ -19,10 +35,13 @@ export class ApiService{
 
 
   SetOldPath(url: string) {
-    localStorage.setItem('old_url', url);
+    sessionStorage.setItem('old_url', url);
   }
   GetOldPath(){
-    return localStorage.getItem('old_url') ?? '';
+    return sessionStorage.getItem('old_url') ?? '';
+  }
+  RemoveOldPath(){
+    sessionStorage.removeItem('old_url');
   }
   async UpdateAvatar(avatar: FormData): Promise<Observable<any>> {
     return await this.http.post(URL_API + 'user/update-avatar/', avatar);
@@ -71,7 +90,7 @@ export class ApiService{
     return await this.http.post(URL_API + 'auth/verify', data);
   }
   isAuthenticated(){
-    if (localStorage.getItem('token') !== null) {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('token') !== null) {
         return true;
     } else {
         return false;

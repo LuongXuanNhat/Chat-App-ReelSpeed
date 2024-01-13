@@ -44,8 +44,12 @@ export class LoginComponent {
             this.toastr.success(mes,'Thông báo',{
               timeOut: 1000
             });
-            const previousState = this.service.GetOldPath();
+            var previousState = this.service.GetOldPath();
+            if(previousState){
+              this.service.RemoveOldPath();
+            }
             this.router.navigateByUrl(previousState);
+            
           } else {
             this.toastr.error("Lỗi: " + data.message);
           }

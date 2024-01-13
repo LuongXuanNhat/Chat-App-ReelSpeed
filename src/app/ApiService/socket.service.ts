@@ -1,29 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
-import { URL_SOCKET } from '../../constant/constantsystem';
+import {  URL_SOCKET } from '../../constant/constantsystem';
 import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SocketService {
-  private socket: Socket;
-
-  constructor() {
-    this.socket = io(URL_SOCKET); 
+export class SocketService{
+  private socket!: Socket;
+  constructor(private service: ApiService) {  
+    this.socket = io(URL_SOCKET, {
+      extraHeaders: {
+        Authorization: `Bearer ${this.service.GetToken()}`
+      }
+    });
+    this.connect();
+  }
+  connect(){
+    
+    this.socket.on("connect", () => {
+      console.log('Connected to WebSocket');
+      return;
+    });
+    console.log('Connect to WebSocket Failed');
   }
 
   createGroup(groupDetails: any): void {
-      this.socket.emit('create_group', groupDetails);
+    this.socket.emit('create_group', groupDetails);
   }
   
-  // Example method to listen for a "group_created" event
-  receiveGroupCreated(): Observable<any> {
-  return new Observable<any>((observer) => {
+  receiveGroupCreated():Observable<any>  {
+    return new Observable<any>((observer) =>{
       this.socket.on('group_created', (data) => {
-      observer.next(data);
+        if(this.service.GetUserId() === data.host)
+        observer.next(data);
       });
-  });
+    })
   }
   
   // Example method to emit a "find_group" event
@@ -33,11 +46,12 @@ export class SocketService {
 
   // Example method to listen for a "group_found" event
   receiveGroupFound(): Observable<any> {
-  return new Observable<any>((observer) => {
+    return new Observable<any>((observer) => {
       this.socket.on('group_found', (data) => {
-      observer.next(data);
+        console.log(data);
+        observer.next(data);
       });
-  });
+    });
   }
   
   // Continue adding methods for other events as needed
@@ -48,11 +62,12 @@ export class SocketService {
   }
 
   // Example method to listen for a "new_message" event
-  receiveNewMessage(): Observable<any> {
-  return new Observable<any>((observer) => {
+  receiveNewMessage() {
+
       this.socket.on('new_message', (data) => {
-      observer.next(data);
-      });
+      // observer.next(data);
+      console.log(data);
+
   });
   }
 }

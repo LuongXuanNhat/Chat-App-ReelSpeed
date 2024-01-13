@@ -13,6 +13,8 @@ import { SocketService } from './ApiService/socket.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    SocketService,
+    ApiService,
     provideRouter(routes), 
     provideHttpClient(  
       withFetch(), 
@@ -26,9 +28,6 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
       
     }),
-    
-    SocketService,
-    ApiService,
     
   ],
 };

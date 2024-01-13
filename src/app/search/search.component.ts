@@ -3,17 +3,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from '../ApiService/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthenComponent } from '../authen/authen.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { SocketService } from '../ApiService/socket.service';
 import { Subscription } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CreateGroupComponent } from './create-group/create-group.component';
+import { CreateComponent } from './create/create.component';
+import { SocketService } from '../ApiService/socket.service';
 
 @Component({
   selector: 'app-search',
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy{
   waiting!: boolean;
 
   constructor(private service: ApiService, private toastr: ToastrService, private router: Router, 
-    private dialog: MatDialog, private socket: SocketService, private builder: FormBuilder){
+    private dialog: MatDialog, private builder: FormBuilder, private socket: SocketService){
     this.waiting = false;
   }
   ngOnInit(): void {
@@ -67,15 +67,15 @@ export class SearchComponent implements OnInit, OnDestroy{
     this.toastr.info("Hãy đăng nhập trước khi vào phòng");
     this.login();
   }
-  async createGroup() {
-    if(await this.service.isAuthenticated()){
-      this.dialog.open(CreateGroupComponent, {
+   createGroup() {
+    if(this.service.isAuthenticated()){
+      this.dialog.open(CreateComponent, {
         enterAnimationDuration: '100ms',
         exitAnimationDuration: '600ms',
         width: '30%',
-        height: '50%',
+        height: '20%',
         minWidth: '300px',
-        minHeight: '380px'
+        minHeight: '200px'
       });
     } else {
       this.toastr.info("Hãy đăng nhập trước khi tạo phòng");
@@ -98,6 +98,6 @@ export class SearchComponent implements OnInit, OnDestroy{
 
 
   ngOnDestroy(): void {
-    this.groupFoundSubscription.unsubscribe();
+   this.groupFoundSubscription.unsubscribe();
   }
 }
