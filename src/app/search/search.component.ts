@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Subscription } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CreateComponent } from './create/create.component';
 import { SocketService } from '../ApiService/socket.service';
@@ -18,8 +18,8 @@ import { SocketService } from '../ApiService/socket.service';
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [MatButtonModule, MatProgressSpinnerModule,
-     CommonModule, MatIconModule, MatMenuModule, MatTooltipModule],
+  imports: [MatButtonModule, MatProgressSpinnerModule, FormsModule, 
+     CommonModule, MatIconModule, MatMenuModule, MatTooltipModule, ReactiveFormsModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
@@ -32,11 +32,13 @@ export class SearchComponent implements OnInit, OnDestroy{
   messages: any[] = [];
 
   private groupFoundSubscription!: Subscription;
-  roomId: string = '';
+  groupForm = this.builder.group({
+    roomId: ['', Validators.required]
+  });
   waiting!: boolean;
 
   constructor(private service: ApiService, private toastr: ToastrService, private router: Router, 
-    private dialog: MatDialog, private builder: FormBuilder, private socket: SocketService){
+    private dialog: MatDialog, private builder: FormBuilder, private socket: SocketService, ){
     this.waiting = false;
   }
   ngOnInit(): void {
@@ -46,26 +48,30 @@ export class SearchComponent implements OnInit, OnDestroy{
   }
   async Find() {
     if(await this.service.isAuthenticated()){
-      // if(this.roomId.trim()){
-      //   this.waiting = !this.waiting;
-      //   (await this.service.FindGroup(this.roomId)).subscribe(
-      //     (data: any) => {
-      //       if(data.isSuccessed){
-    
-      //       } else {
-      //         this.toastr.error("Lỗi: " + data.message);
-      //       }
-      //     }, (error: any) => {
-      //       this.toastr.error("Lỗi: "+ error);
-      //     }
-      //   )
-      // }
-      this.toastr.info("Không tìm thấy phòng");
-      return;
+      if(this.groupForm.value.roomId?.trim()){
+        this.waiting = !this.waiting;
+        (await this.service.FindGroup(this.groupForm.value.roomId)).subscribe(
+          (data: any) => {
+            if(data.status === 'success'){
+              this.service.SetGroupId(data.data.groupId);
+              this.router.navigate(['/chat']);
+            } else {
+              this.toastr.info(data.message, "Lỗi");
+              return;
+            }
+          }, (error: any) => {
+            this.waiting = !this.waiting;
+            this.toastr.error("Lỗi: "+ error);
+            return;
+          }
+        )
+      } else {
+        this.toastr.info("Không tìm thấy phòng");
+      }
+    } else {
+      this.toastr.info("Hãy đăng nhập trước khi vào phòng");
+      this.login();
     }
-      
-    this.toastr.info("Hãy đăng nhập trước khi vào phòng");
-    this.login();
   }
    createGroup() {
     if(this.service.isAuthenticated()){

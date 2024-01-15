@@ -13,6 +13,7 @@ export interface Message {
     created_at: Date;
     text: string;
     file: string;
+    user: User
 }
 
 export interface User {

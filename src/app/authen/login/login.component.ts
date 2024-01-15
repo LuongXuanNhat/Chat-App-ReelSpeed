@@ -49,12 +49,11 @@ export class LoginComponent {
               this.service.RemoveOldPath();
             }
             this.router.navigateByUrl(previousState);
-            
           } else {
             this.toastr.error("Lỗi: " + data.message);
           }
-        }, (error: any) => {
-          this.toastr.error("Lỗi: Serve đang tắt");
+        }, (data: any) => {
+          this.toastr.error(data.error.message, "Thông báo");
         }
       )
     }

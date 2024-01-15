@@ -53,21 +53,35 @@ export class SocketService{
       });
     });
   }
+
+  sendMessage(messageDetails: any): void {
+    this.socket.emit('text_message', messageDetails);
+  }
   
-  // Continue adding methods for other events as needed
-  
-  // Example method to emit a "text_message" event
-  sendMessage(messageDetails: { message: string, group_id: string, from: string, type: string }): void {
-  this.socket.emit('text_message', messageDetails);
+  receiveNewMessage() {
+    return new Observable<any>((observer) => {
+      this.socket.on('new_message', (data) => {
+        console.log(data);
+        observer.next(data);
+      });
+    });
   }
 
-  // Example method to listen for a "new_message" event
-  receiveNewMessage() {
+  receiveUpdateMessage() {
+    return new Observable<any>((observer) => {
+      this.socket.on('edited_message', (data) => {
+        console.log(data);
+        observer.next(data);
+      });
+    });
+  }
 
-      this.socket.on('new_message', (data) => {
-      // observer.next(data);
-      console.log(data);
-
-  });
+  receiveDeleteMessage() {
+    return new Observable<any>((observer) => {
+      this.socket.on('deleted_message', (data) => {
+        console.log(data);
+        observer.next(data);
+      });
+    });
   }
 }

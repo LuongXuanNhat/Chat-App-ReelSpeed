@@ -11,6 +11,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: flex !important;
 }
 
+.inline-flex {
+    display: inline-flex !important;
+}
 .cursor {
     cursor: pointer;
 }

@@ -15,15 +15,15 @@
           <div class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
             <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Vào nhóm ngày để gặp gỡ và giao lưu với bạn bè thôi nào 🎉</h1>
             <p class="mb-8 leading-relaxed">...</p>
-            <div class="flex w-full md:justify-start justify-center align-items-center mb-8">
+            <form [formGroup]="groupForm" (ngSubmit)="Find()"  class="flex w-full md:justify-start justify-center align-items-center mb-8">
               <div class="relative mr-4 lg:w-full xl:w-1/2 w-2/4">
-                <input type="text" id="hero-field" name="hero-field" (ngModel)="roomId" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <input type="text" id="hero-field" name="hero-field" formControlName="roomId" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
               </div>
-              <button mat-raised-button color="warn" (click)="Find()" class="">Vào phòng</button>
+              <button mat-raised-button color="warn" class="">Vào phòng</button>
               <div *ngIf="GetWaiting()" class="ml-4">
                 <mat-spinner color="warn" style="width: 38px;"></mat-spinner>
               </div>
-            </div>
+            </form>
             <div class="flex lg:flex-row md:flex-col">
               <button class="bg-gray-100 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6" viewBox="0 0 512 512">

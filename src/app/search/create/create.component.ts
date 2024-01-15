@@ -42,9 +42,9 @@ export class CreateComponent implements OnInit, OnDestroy{
       this.toastr.info("Đang vào phòng..");
       this.toastr.success("Đã tạo phòng");
 
-      // setTimeout(() => {
-      //   this.router.navigate(['/chat'])
-      // }, 700)
+      setTimeout(() => {
+        this.router.navigate(['/chat'])
+      }, 700)
     }
   }
 

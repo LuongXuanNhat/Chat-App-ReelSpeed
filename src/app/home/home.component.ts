@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { ApiService } from '../ApiService/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenComponent } from '../authen/authen.component';
-import { AnimationService } from '../animation.service';
+import { AnimationService } from '../animation/animation.service';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({

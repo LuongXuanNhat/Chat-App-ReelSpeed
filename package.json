@@ -28,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mime": "^4.0.1",
+    "ngx-clipboard": "^16.0.0",
     "ngx-toastr": "^18.0.0",
     "process": "^0.11.10",
     "rxjs": "~7.8.0",

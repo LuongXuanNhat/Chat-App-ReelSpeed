@@ -1,7 +1,7 @@
 import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApiService } from './ApiService/api.service';
-import { AuthenComponent } from './authen/authen.component';
+import { ApiService } from '../ApiService/api.service';
+import { AuthenComponent } from '../authen/authen.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
