@@ -3,24 +3,39 @@
     <section class="text-gray-600 body-font">
         <div class="container px-5 py-8 mx-auto">
           <div class="flex flex-col text-center w-full mb-20">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Thành viên đang online 🟢</h1>
-            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Nhóm chat: #124srwt</p>
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Thành viên trong nhóm 🟢</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Nhóm chat: <strong>{{ groupId }}</strong></p>
           </div>
           <div class="flex flex-wrap -m-2">
-            <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+            <div class="p-2 lg:w-1/3 md:w-1/2 w-full" *ngFor="let user of users">
               <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/80x80">
+                <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" [src]="user.avatar ? user.avatar : 'assets/rabbit.png'">
                 <div class="flex-grow">
-                    <h2 class="text-gray-900 title-font font-medium">Lương Xuân Nhất (Host)</h2> 
-                    <button mat-button [matMenuTriggerFor]="menu">Cài đặt</button>
+                    <h2 class="text-gray-900 title-font font-medium">
+                      {{ user.fullname }}
+                      <div *ngIf="userId == user._id" style="display: contents;">
+                        <strong class="text-indigo-500">bạn </strong>
+                      </div>
+
+                      <div *ngIf="host == user._id" style="display: contents;">
+                        <strong class="text-red-500">host</strong>
+                      </div>
+                      
+                    </h2> 
+                    <button *ngIf="host == userId" mat-button [matMenuTriggerFor]="menu">Cài đặt</button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item>Cấm chat</button>
-                        <button mat-menu-item>Xóa khỏi nhóm</button>
+                        <div *ngIf="host == user._id; else nothost">
+                          <button mat-menu-item>Xóa nhóm</button>
+                        </div>
+                        <ng-template #nothost>
+                          <button mat-menu-item>Cấm chat</button>
+                          <button mat-menu-item>Xóa khỏi nhóm</button>
+                        </ng-template>
                     </mat-menu>
                 </div>
               </div>
             </div>
-            <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+            <!-- <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
               <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                 <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/84x84">
                 <div class="flex-grow">
@@ -111,8 +126,8 @@
                 </div>
               </div>
             </div>
-            <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
-              <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <div class="p-2 lg:w-1/3 md:w-1/2 w-full"> -->
+              <!-- <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
                 <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/108x98">
                 <div class="flex-grow">
                   <h2 class="text-gray-900 title-font font-medium">Lương Xuân Nhất</h2>
@@ -122,8 +137,8 @@
                         <button mat-menu-item>Xóa khỏi nhóm</button>
                     </mat-menu>
                 </div>
-              </div>
-            </div>
+              </div> -->
+            <!-- </div> -->
           </div>
         </div>
       </section>

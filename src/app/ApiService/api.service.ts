@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService{
+  
   FindGroup(roomId: string) {
     return this.http.get( URL_API + 'chat/find-group/' + roomId);
   }
@@ -28,6 +29,10 @@ export class ApiService{
 
   GetGroupInfo(group_id: any){
     return this.http.get( URL_API + 'chat/get-group-info/'+group_id);
+  }
+
+  GetUserGroup(group_id: string) {
+    return this.http.get( URL_API + 'chat/get-group-users/'+group_id)
   }
 
   async UpdateUser(value: any) {
@@ -100,4 +105,9 @@ export class ApiService{
         return false;
     }
   }
+
+  LeaveGroup(groupId: string, memberId: string){
+    
+  }
+
 }

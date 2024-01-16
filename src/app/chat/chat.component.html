@@ -1,20 +1,41 @@
 <div class="flex pl-3 pr-3" style=" flex-direction: column; height: 100%;">
-    <div class="flex w-100 sm:justify-between">
-        <div class="flex items-center pl-3 pr-3 pt-1 pb-1 rounded-full hover:bg-red-500 text-lg text-white" style="background-color: #f85959;">
-            {{ group.name }} 
+    <div class="flex w-100 sm:justify-between mb-2 mt-2 ">
+        <div class="flex items-center pl-3 pr-3 rounded-full hover:bg-red-500 text-lg text-white" style="background-color: #f85959;">
+            <span>{{ group.name }} </span>
             <mat-icon class="ml-2 " style="cursor: pointer;" (click)="copyToClipboard()" matTooltip="Copy ID nhóm" matTooltipPosition="right" >code</mat-icon>
         </div>
-
+        <div>
+            <button class="rounded-full " (click)="leaveGroup()" matTooltip="Rời nhóm" matTooltipPosition="left"><mat-icon>remove</mat-icon></button>
+        </div>
     </div>
-    <div>
-        <li *ngFor="let mes of group.messages" class="list-unstyled">
-            <p class="mt-3 pl-3 pr-3 pt-2 pb-2 bg-red-500 text-white">
-                <img [src]="mes.user.avatar ? mes.user.avatar : 'assets/rabbit.png'" class="w-10 h-10 rounded-full" alt="" >
-                {{ mes.text }}
-            </p>
+    <div #messageListContainer style="max-height: 85%;  overflow-y: auto;">
+        <li *ngFor="let mes of group.messages" class="list-unstyled" style="position: relative;">
+            <div *ngIf="mes.sender != userId; else another"  class="rounded-lg mt-3 pl-3 pr-3 pt-2 pb-2 bg-red-400 hover:bg-red-500 text-white flex w-50">
+                <img [src]="mes.avatar ? mes.avatar : 'assets/rabbit.png'" class="w-10 h-10 rounded-full" alt="avatar" matTooltip="{{ mes.fullname }}">
+                <div class="pt-2 pl-2">
+                    {{ mes.text }}
+                </div>
+            </div>
+            <ng-template #another >
+                <div class="card-mess group">
+                    <div  class="rounded-lg mt-3 pl-3 pr-3 pt-2 mr-2 pb-2 bg-indigo-400 hover:bg-indigo-500 text-white flex" style="margin-left: 50%;">
+                        <div class=" pt-2 pl-2 ms-auto pr-2">
+                            {{ mes.text }}
+                        </div>
+                        <img [src]="mes.avatar ? mes.avatar : 'assets/rabbit.png'" class="w-10 h-10 rounded-full " alt="avatar" matTooltip="{{ mes.fullname }}">
+                    </div>
+                    <div class="util hidden group-hover:block">
+                        <ul>
+                            <li>
+                                <button class="btn-delete"><mat-icon matTooltip="xóa tin nhắn" (click)="delete(mes._id)">delete_outline</mat-icon></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-template>
         </li>
     </div>
-    <form class="ml-10 " style="margin-top: auto;" [formGroup]="chatform" (ngSubmit)="send()">
+    <form class="ml-10 pt-3" style="margin-top: auto;" [formGroup]="chatform" (ngSubmit)="send()">
         <mat-form-field style="width: 90%;">
             <mat-label>Nhập tin nhắn</mat-label>
             <textarea type="text" matInput formControlName="message"></textarea>

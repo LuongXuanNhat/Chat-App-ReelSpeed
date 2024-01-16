@@ -10,7 +10,7 @@ import { chatGuard } from './guard/chatguard.guard';
 
 export const routes: Routes = [
     {'path':'', component:HomeComponent},
-    {'path':'users', canActivate: [Verified], component:UsersComponent},
+    {'path':'users', canActivate: [Verified, chatGuard], component:UsersComponent},
     {'path':'chat', canActivate: [Verified, chatGuard], component:ChatComponent},
     {'path':'authen', component:AuthenComponent},
     {'path':'searchroom', component:SearchComponent},

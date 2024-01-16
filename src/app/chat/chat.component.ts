@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 })
 export class ChatComponent implements OnInit, OnDestroy{
 
+  userId: string = '';
   group!: GroupInfo;
   createMessageSubscription!: Subscription;
   updateMessageSubscription!: Subscription;
@@ -33,18 +34,26 @@ export class ChatComponent implements OnInit, OnDestroy{
     type: this.builder.control('', [Validators.required]),
     message: this.builder.control('', [Validators.required]),
   });
-
+  @ViewChild('messageListContainer') messageListContainer!: ElementRef;
+  
   constructor(private service: ApiService, private builder: FormBuilder, private socket: SocketService, private toastr: ToastrService,
     private router: Router, private clipboardService: ClipboardService){
       this.GetGroupInfor();
+      this.userId = service.GetUserId();
   }
 
   ngOnInit(): void {
     this.createMessageSubscription = this.socket.receiveNewMessage().subscribe((data) => {
-      this.group.messages.push(data.message);
+      this.group.messages.push(this.insertPath(data.message));
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
     });
     this.updateMessageSubscription = this.socket.receiveUpdateMessage().subscribe((data) => {
       this.UpdateMessage(data.message);
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
     });
     this.deleteMessageSubscription = this.socket.receiveDeleteMessage().subscribe((data) => {
       this.DeleteMessage(data.message_id);
@@ -62,7 +71,10 @@ export class ChatComponent implements OnInit, OnDestroy{
         (data: any) => {
           if(data.status === 'success'){
             this.group = data.data;
-            console.log(this.group.messages);
+            this.insertsPath();
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 100);
           } else {
             this.toastr.error(data.message, "Lỗi");
           }
@@ -71,6 +83,21 @@ export class ChatComponent implements OnInit, OnDestroy{
         }
       )
     }
+  }
+
+  insertsPath() {
+    this.group.messages.forEach(element => {
+      if(element.avatar){
+        element.avatar = this.service.GetApi() + element.avatar;
+      }
+    });
+  }
+
+  insertPath(message: Message) {
+    if(message.avatar){
+      message.avatar = this.service.GetApi() + message.avatar;
+    }
+    return message;
   }
 
   copyToClipboard() {
@@ -91,8 +118,9 @@ export class ChatComponent implements OnInit, OnDestroy{
   }
 
   DeleteMessage(message_id: any) {
-    this.group.messages = this.group.messages.filter((element) => element.sender !== message_id);
+    this.group.messages = this.group.messages.filter((element) => element._id !== message_id);
   }
+
   UpdateMessage(message: Message) {
     const newArray = this.group.messages.map((element) => {
       if (message.sender === element.sender) {
@@ -101,5 +129,21 @@ export class ChatComponent implements OnInit, OnDestroy{
       return element;
     });
     this.group.messages = newArray;
+  }
+
+  delete(messId: string) {
+    this.socket.deleteMessage(this.group._id, messId);
+  }
+
+  leaveGroup(){
+    this.service.LeaveGroup(this.group._id, this.userId);
+  }
+
+  scrollToBottom() {
+    try {
+      this.messageListContainer.nativeElement.scrollTop = this.messageListContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Lỗi khi cuộn xuống cuối cùng:', err);
+    }
   }
 }

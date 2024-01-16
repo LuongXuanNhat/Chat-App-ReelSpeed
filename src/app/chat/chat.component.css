@@ -1,0 +1,15 @@
+.util {
+    display: none;
+    position: absolute;
+    right: 50%;
+    top: 14px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.card-mess:hover .util-visible {
+    display: block;
+}
+.btn-delete {
+    padding: 2px 6px;
+    background: aliceblue;
+}

@@ -41,7 +41,9 @@ export class SettingComponent implements OnInit {
         if(data.status === 'success'){
           this.user = data.data;
           this.userform.get('fullname')?.setValue(this.user.fullname);
-          this.user.avatar = this.service.GetApi() + this.user.avatar;
+          if(this.user.avatar){
+            this.user.avatar = this.service.GetApi() + this.user.avatar;
+          }
         } else {
           this.toastr.error("Lỗi: " + data.message);
         }
@@ -76,8 +78,8 @@ export class SettingComponent implements OnInit {
     (await this.service.UpdateAvatar(formData)).subscribe(
       (data: any) => {
         if(data.status === 'success'){
-          this.toastr.success("Cập nhập thành công", "Thông báo");
           this.user.avatar = data.avatar;
+          this.toastr.success("Cập nhập thành công", "Thông báo");
         } else {
           this.toastr.error("Lỗi: " + data.message);
         }

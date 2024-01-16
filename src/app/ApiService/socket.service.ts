@@ -8,6 +8,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class SocketService{
+
   private socket!: Socket;
   constructor(private service: ApiService) {  
     this.socket = io(URL_SOCKET, {
@@ -83,5 +84,13 @@ export class SocketService{
         observer.next(data);
       });
     });
+  }
+
+  deleteMessage(groupId: string, messId: string) {
+    const deleteData = {
+      group_id: groupId,
+      message_id: messId,
+    };
+    this.socket.emit('delete_message', deleteData);
   }
 }
