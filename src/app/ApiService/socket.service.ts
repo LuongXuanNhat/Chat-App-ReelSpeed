@@ -40,16 +40,14 @@ export class SocketService{
     })
   }
   
-  // Example method to emit a "find_group" event
   findGroup(groupId: string): void {
       this.socket.emit('find_group', { groupId });
   }
 
-  // Example method to listen for a "group_found" event
   receiveGroupFound(): Observable<any> {
     return new Observable<any>((observer) => {
-      this.socket.on('group_found', (data) => {
-        console.log(data);
+      this.socket.on('request_group', (data) => {
+        console.log("Nhận yêu cầu vào: " + data);
         observer.next(data);
       });
     });
@@ -92,5 +90,14 @@ export class SocketService{
       message_id: messId,
     };
     this.socket.emit('delete_message', deleteData);
+  }
+
+  LeaveGroup(group_id: string, member_id: string){
+    const leaveData = {
+      group_id: group_id,
+      member_id: member_id,
+    };
+    this.socket.emit('leave_group', leaveData);
+    
   }
 }

@@ -17,7 +17,7 @@
         </a>
         <div style="margin-top: auto; cursor: pointer;">
             <a class="justify-content-center mb-3 flex text-center text-white">
-                <img [src]="" alt="" class="img-app">
+                <img [src]="GetAvatar()" alt="" class="rounded-full w-10 h-10">
             </a>
             <a (click)="GetLogged() ? Logout() : Authen()" class="justify-content-center mb-3 flex text-center text-white" [matTooltip]="GetLogged() ? 'Đăng xuất' : 'Đăng nhập'" matTooltipPosition="right">
                 <img [src]="GetLogged() ? 'assets/log-out.png' : 'assets/log-in.png'" alt="" class="img-app">

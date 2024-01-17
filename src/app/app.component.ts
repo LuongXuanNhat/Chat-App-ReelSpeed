@@ -29,19 +29,10 @@ export class AppComponent {
   GetLogged(){
     return this.service.isAuthenticated();
   }
-  async GetAvatar(){
-    (await this.service.GetUserInfor()).subscribe(
-      (data: any) => {
-        if(data.status === 'success'){
-          this.avatar = data.data.avatar;
-          return this.avatar;
-        } else {
-
-        }
-      }, (error: any) => {
-
-      }
-    )
+  GetAvatar(){
+    if(this.service.isAuthenticated())
+      return this.service.GetAvatar();
+    return 'assets/rabbit.png';
   }
   Authen(){
     this.dialog.open(AuthenComponent, {

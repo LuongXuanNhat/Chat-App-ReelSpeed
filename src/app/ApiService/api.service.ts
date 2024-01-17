@@ -17,6 +17,12 @@ export class ApiService{
   GetUserId() {
     return this.Decode().userId;
   }
+  GetAvatar(){
+    if (this.Decode().avatar) { 
+      return URL_API + this.Decode().avatar;
+    }
+    return 'assets/rabbit.png';
+  }
   SetGroupId(groupId: any) {
     sessionStorage.setItem('group_id', groupId);
   }
@@ -105,9 +111,4 @@ export class ApiService{
         return false;
     }
   }
-
-  LeaveGroup(groupId: string, memberId: string){
-    
-  }
-
 }

@@ -12,15 +12,19 @@
         <li *ngFor="let mes of group.messages" class="list-unstyled" style="position: relative;">
             <div *ngIf="mes.sender != userId; else another"  class="rounded-lg mt-3 pl-3 pr-3 pt-2 pb-2 bg-red-400 hover:bg-red-500 text-white flex w-50">
                 <img [src]="mes.avatar ? mes.avatar : 'assets/rabbit.png'" class="w-10 h-10 rounded-full" alt="avatar" matTooltip="{{ mes.fullname }}">
-                <div class="pt-2 pl-2">
-                    {{ mes.text }}
+                <div class="pt pl-2">
+                    <strong style="font-size: small;">{{ mes.fullname }}</strong>
+                    <div>{{ mes.text }}</div>
+                    <div style="font-size: small; font-style: italic;">{{ mes.pubDate }}</div>
                 </div>
             </div>
             <ng-template #another >
                 <div class="card-mess group">
-                    <div  class="rounded-lg mt-3 pl-3 pr-3 pt-2 mr-2 pb-2 bg-indigo-400 hover:bg-indigo-500 text-white flex" style="margin-left: 50%;">
-                        <div class=" pt-2 pl-2 ms-auto pr-2">
-                            {{ mes.text }}
+                    <div  class="rounded-lg mt-3 pl-3 pr-3 pt-2 mr-2 pb-2 bg-indigo-400 hover:bg-indigo-500 text-white flex" style="margin-left: 50%; text-align: end;">
+                        <div class="pl-2 ms-auto pr-2">
+                            <strong style="font-size: small;">{{ mes.fullname }}</strong>
+                            <div>{{ mes.text }}</div>
+                            <div style="font-size: small; font-style: italic;">{{ mes.pubDate }}</div>
                         </div>
                         <img [src]="mes.avatar ? mes.avatar : 'assets/rabbit.png'" class="w-10 h-10 rounded-full " alt="avatar" matTooltip="{{ mes.fullname }}">
                     </div>

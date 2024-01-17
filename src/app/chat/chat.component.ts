@@ -28,6 +28,8 @@ export class ChatComponent implements OnInit, OnDestroy{
   createMessageSubscription!: Subscription;
   updateMessageSubscription!: Subscription;
   deleteMessageSubscription!: Subscription;
+  requestIntoRoomSubscription!: Subscription;
+
   chatform = this.builder.group({
     groupId: this.builder.control('', [Validators.required]),
     from: this.builder.control('', [Validators.required]),
@@ -39,10 +41,16 @@ export class ChatComponent implements OnInit, OnDestroy{
   constructor(private service: ApiService, private builder: FormBuilder, private socket: SocketService, private toastr: ToastrService,
     private router: Router, private clipboardService: ClipboardService){
       this.GetGroupInfor();
-      this.userId = service.GetUserId();
+      this.userId = this.service.GetUserId();
   }
 
   ngOnInit(): void {
+    this.requestIntoRoomSubscription = this.socket.receiveGroupFound().subscribe((data) => {
+      // this.RequestRoom();
+      console.log(data);
+      
+    });
+
     this.createMessageSubscription = this.socket.receiveNewMessage().subscribe((data) => {
       this.group.messages.push(this.insertPath(data.message));
       setTimeout(() => {
@@ -58,7 +66,9 @@ export class ChatComponent implements OnInit, OnDestroy{
     this.deleteMessageSubscription = this.socket.receiveDeleteMessage().subscribe((data) => {
       this.DeleteMessage(data.message_id);
     });
+
   }
+  
   ngOnDestroy(): void {
     this.createMessageSubscription.unsubscribe();
     this.updateMessageSubscription.unsubscribe();
@@ -136,7 +146,10 @@ export class ChatComponent implements OnInit, OnDestroy{
   }
 
   leaveGroup(){
-    this.service.LeaveGroup(this.group._id, this.userId);
+    this.socket.LeaveGroup(this.group._id, this.userId);
+    this.toastr.info("Đã rời nhóm chat", "Thông báo");
+    this.service.RemoveGroupId();
+    this.router.navigate(['searchroom']);
   }
 
   scrollToBottom() {
@@ -145,5 +158,33 @@ export class ChatComponent implements OnInit, OnDestroy{
     } catch (err) {
       console.error('Lỗi khi cuộn xuống cuối cùng:', err);
     }
+  }
+
+  RequestRoom() {
+    this.toastr.warning('Bạn có muốn thực hiện hành động này?', 'Xác nhận', {
+      closeButton: true,
+      timeOut: 0,
+      extendedTimeOut: 0,
+      disableTimeOut: true,
+      tapToDismiss: false,
+      positionClass: 'toast-top-center',
+      progressBar: true,
+      progressAnimation: 'increasing',
+      toastClass: 'ngx-toastr-confirm'
+    })
+    .onShown.subscribe(() => {
+      document.getElementById('confirmButton')?.addEventListener('click', () => {
+        this.add();
+        this.toastr.clear();
+      });
+
+      document.getElementById('cancelButton')?.addEventListener('click', () => {
+        this.toastr.clear();
+      });
+    });
+  }
+
+  add() {
+    console.log('Đã chấp nhận');
   }
 }

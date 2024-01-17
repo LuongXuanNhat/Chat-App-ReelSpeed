@@ -54,7 +54,11 @@ export class SearchComponent implements OnInit, OnDestroy{
           (data: any) => {
             if(data.status === 'success'){
               this.service.SetGroupId(data.data.groupId);
-              this.router.navigate(['/chat']);
+              if (!data.data.public) {
+                this.checkPrivateGroup(data.data.groupId);
+              }
+              else
+                this.router.navigate(['/chat']);
             } else {
               this.toastr.info(data.message, "Lỗi");
               return;
@@ -73,7 +77,11 @@ export class SearchComponent implements OnInit, OnDestroy{
       this.login();
     }
   }
-   createGroup() {
+  checkPrivateGroup(groupId: any) {
+    this.toastr.info("Đang gửi yêu cầu vào phòng","Thông báo");
+    this.socket.findGroup(groupId);
+  }
+  createGroup() {
     if(this.service.isAuthenticated()){
       this.dialog.open(CreateComponent, {
         enterAnimationDuration: '100ms',

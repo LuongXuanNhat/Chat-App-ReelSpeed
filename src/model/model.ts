@@ -17,6 +17,7 @@ export interface Message {
     file: string;
     fullname: string;
     avatar: string;
+    pubDate: string;
 }
 
 export interface User {

@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ApiService } from '../../ApiService/api.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-create',
@@ -27,7 +28,7 @@ export class CreateComponent implements OnInit, OnDestroy{
   groupCreatedSubscription!: Subscription;
 
   constructor(private builder: FormBuilder, private socket: SocketService, private toastr: ToastrService,
-    private router: Router, private service: ApiService){
+    private router: Router, private service: ApiService, private matdialogref: DialogRef<CreateComponent>){
     
   }
 
@@ -41,9 +42,9 @@ export class CreateComponent implements OnInit, OnDestroy{
       this.socket.createGroup(this.creategroupform.value);
       this.toastr.info("Đang vào phòng..");
       this.toastr.success("Đã tạo phòng");
-
       setTimeout(() => {
-        this.router.navigate(['/chat'])
+        this.matdialogref.close();
+        this.router.navigate(['/chat']);
       }, 700)
     }
   }
